@@ -14,7 +14,7 @@ function App() {
           <Route exact path="/">
             <Articles />
           </Route>
-          <Route exact path="/articles/:article_slug">
+          <Route exact path="/articles/topic/:slug">
             <Articles />
           </Route>
         </Switch>

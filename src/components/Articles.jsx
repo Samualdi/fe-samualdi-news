@@ -1,16 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { getArticles } from '../utils/api';
 
 const Articles = () => {
     const [articles, setArticles] = useState([]);
+    const { slug } = useParams();
+
 
     useEffect(() => {
-        getArticles().then((articles) => {
+        getArticles(slug).then((articles) => {
             setArticles(articles);
         });
         
-    }, []);
+    }, [slug]);
     return (
         <div className="Articles">
             <ul>
