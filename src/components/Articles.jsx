@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { getArticles } from '../utils/api';
 
 const Articles = () => {
@@ -19,7 +20,7 @@ const Articles = () => {
             <ul>
                 {articles.map(article => {
                    return  <li key={article.article_id}>
-                       <h3>{article.title}</h3>
+                       <Link to={`/articles/${article.article_id}`}>{article.title}</Link>
                        <h4>Created by: {article.author}</h4>
                        <p>Votes: {article.votes}</p>
                        <p>Date: {article.created_at}</p>
