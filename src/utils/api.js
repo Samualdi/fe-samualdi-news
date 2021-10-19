@@ -18,3 +18,9 @@ export const getTopics = () => {
     return res.data.topics;
   })
 }
+
+export const getArticleByID = (article_id) => {
+  return SamualdiNewsAPi.get(`/articles/${article_id}`).then((res) => {
+    return res.data.article;
+  })
+}
