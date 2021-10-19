@@ -36,3 +36,9 @@ export const incArticleVote = (article_id, vote) => {
     return res.data.updatedArticle;
   })
 }
+
+export const findUser = (user) => {
+    return SamualdiNewsAPi.get(`users/${user}`).then((res) => {
+    return res.data.user
+  })
+}

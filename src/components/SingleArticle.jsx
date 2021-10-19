@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import { getArticleByID, incArticleVote } from '../utils/api';
 import Comments from './Comments';
 
-const SingleArticle = () => {
+const SingleArticle = ({currentUser}) => {
   const [article, setArticle] = useState({});
   const [err, setErr] = useState(null);
     const [votes, setVotes] = useState(0);
@@ -73,7 +73,7 @@ const SingleArticle = () => {
       >
         Downvote
       </button>
-      <Comments article_id={article_id} />
+      <Comments article_id={article_id} currentUser={currentUser}/>
     </div>
   );
 };

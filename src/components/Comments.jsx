@@ -4,7 +4,11 @@ import { getArticleComments } from '../utils/api';
 
 const Comments = ({article_id}) => {
     const [comments, setComments] = useState([]);
+    const [newUserComment, setnewUserComment] = useState("");
+    const [userComment, setUserComment] = useState("");
     const [err, setErr] = useState(null);
+
+    console.log(userComment);
 
     useEffect(() => {
         setErr(null);
@@ -31,7 +35,18 @@ const Comments = ({article_id}) => {
                         <p>{comment.created_at}</p>
                       </li>);
                 })}
-            </ul>
+           </ul>
+           <h2>Add a comment</h2>
+           <form onSubmit={(e) => {
+               e.preventDefault();
+               setUserComment(newUserComment);
+               setnewUserComment('');
+           }}>
+               <textarea name="comment-box" id="commentbox" cols="30" rows="10" value={newUserComment} onChange={(e) => {
+                   setnewUserComment(e.target.value)
+               }}></textarea>
+               <button>Post</button>
+           </form>
         </div>
     );
 };
