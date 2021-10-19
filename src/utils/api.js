@@ -30,3 +30,9 @@ export const getArticleComments = (article_id) => {
     return res.data.articleComments;
   })
 }
+
+export const incArticleVote = (article_id, vote) => {
+  return SamualdiNewsAPi.patch(`articles/${article_id}`, { inc_votes: vote }).then((res) => {
+    return res.data.updatedArticle;
+  })
+}
