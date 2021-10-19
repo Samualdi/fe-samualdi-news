@@ -24,3 +24,9 @@ export const getArticleByID = (article_id) => {
     return res.data.article;
   })
 }
+
+export const getArticleComments = (article_id) => {
+  return SamualdiNewsAPi.get(`/articles/${article_id}/comments`).then((res) => {
+    return res.data.articleComments;
+  })
+}
