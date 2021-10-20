@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../conetxts/User';
-import { getArticleComments } from '../utils/api';
+import { getArticleComments, postComment } from '../utils/api';
 
 const Comments = ({ article_id }) => {
     const [comments, setComments] = useState([]);
@@ -19,7 +19,19 @@ const Comments = ({ article_id }) => {
             setErr(err.response.data.msg)
         })
         
-    }, [article_id])
+    }, [article_id, comments])
+
+    useEffect(() => {
+        if (userComment) {
+            postComment(article_id, currentUser.username, userComment).then((newComment) => {
+                console.log(newComment)
+            }).catch((err) => {
+                console.dir(err.response.data.msg);
+            })
+            
+        }
+        
+    }, [userComment])
     
     if (err) return <p>{err}</p>
     
@@ -36,6 +48,7 @@ const Comments = ({ article_id }) => {
                         <p>{comment.created_at}</p>
                       </li>);
                 })}
+               {(err && <p>Something went wrong with loading comments!</p>)}
            </ul>
            <h2>Add a comment</h2>
            <form onSubmit={(e) => {
@@ -46,7 +59,7 @@ const Comments = ({ article_id }) => {
                <textarea name="comment-box" id="commentbox" cols="30" rows="10" value={newUserComment} onChange={(e) => {
                    setnewUserComment(e.target.value)
                }}></textarea>
-               <button>Post</button>
+               <button type="submit">Post</button>
            </form>
         </div>
     );
