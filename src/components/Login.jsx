@@ -1,11 +1,13 @@
 import React from 'react';
 import { findUser } from '../utils/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../conetxts/User';
 
-const Login = ({currentUser, setCurrentUser}) => {
+const Login = () => {
     const [newUser, setNewUser] = useState("");
     const [user, setUser] = useState("");
-    const[err, setErr]= useState("")
+  const [err, setErr] = useState(null)
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
      useEffect(() => {
        if (user) {
@@ -17,15 +19,6 @@ const Login = ({currentUser, setCurrentUser}) => {
        }
      }, [user]);
     
-    if (err) return (
-      <div>
-            <p>{err}</p>
-            <form onSubmit={() => {
-            }}>
-                <button>Try again!</button>
-            </form>
-      </div>
-    );
 
     
     if(!currentUser) return (
@@ -36,6 +29,7 @@ const Login = ({currentUser, setCurrentUser}) => {
             e.preventDefault();
             setUser(newUser);
             setNewUser("");
+            
           }}
         >
           <label htmlFor="username">Username:</label>
@@ -44,10 +38,11 @@ const Login = ({currentUser, setCurrentUser}) => {
             required
             value={newUser}
             onChange={(e) => {
+              setErr(null);
               setNewUser(e.target.value);
             }}
           />
-          <button type="submit">Log in!</button>
+          <button type="submit">Log in!</button> {(err && <p>{err}</p>)}
             </form>
             </div>
     );

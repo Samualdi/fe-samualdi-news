@@ -1,11 +1,13 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { findUser, getTopics } from '../utils/api';
+import { useState, useEffect, useContext } from 'react';
+import { getTopics } from '../utils/api';
 import { Link } from 'react-router-dom';
 import Login from './Login';
+import { UserContext } from '../conetxts/User';
 
-const Nav = ({ currentUser, setCurrentUser }) => {
+const Nav = () => {
   const [topics, setTopics] = useState([]);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
    
     useEffect(() => {
         getTopics().then((topics) => {
@@ -27,7 +29,7 @@ const Nav = ({ currentUser, setCurrentUser }) => {
             </Link>
           );
         })}
-        <Login currentUser={currentUser} setCurrentUser={setCurrentUser} />
+        <Login />
         
       </div>
     );

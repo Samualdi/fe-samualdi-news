@@ -5,14 +5,16 @@ import Header from './components/Header';
 import Nav from './components/Nav';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import SingleArticle from './components/SingleArticle';
+import { UserContext } from './conetxts/User';
 
 function App() {
    const [currentUser, setCurrentUser] = useState();
   return (
-    <div>
+    <div className="App">
+      <UserContext.Provider value={{currentUser, setCurrentUser}}>
       <BrowserRouter>
         <Header />
-        <Nav currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+        <Nav/>
         <Switch>
           <Route exact path="/">
             <Articles />
@@ -21,10 +23,11 @@ function App() {
             <Articles />
           </Route>
           <Route exact path="/articles/:article_id">
-            <SingleArticle currentUser={currentUser} />
+            <SingleArticle/>
           </Route>
         </Switch>
       </BrowserRouter>
+      </UserContext.Provider>
     </div>
   );
 }

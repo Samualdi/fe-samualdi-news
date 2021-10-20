@@ -1,14 +1,15 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../conetxts/User';
 import { getArticleComments } from '../utils/api';
 
-const Comments = ({article_id}) => {
+const Comments = ({ article_id }) => {
     const [comments, setComments] = useState([]);
     const [newUserComment, setnewUserComment] = useState("");
     const [userComment, setUserComment] = useState("");
     const [err, setErr] = useState(null);
+    const { currentUser } = useContext(UserContext);
 
-    console.log(userComment);
 
     useEffect(() => {
         setErr(null);

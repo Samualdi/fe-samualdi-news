@@ -1,15 +1,17 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
+import { UserContext } from '../conetxts/User';
 import { getArticleByID, incArticleVote } from '../utils/api';
 import Comments from './Comments';
 
-const SingleArticle = ({currentUser}) => {
+const SingleArticle = () => {
   const [article, setArticle] = useState({});
   const [err, setErr] = useState(null);
     const [votes, setVotes] = useState(0);
     const [newVote, setNewVote] = useState(0);
     const { article_id } = useParams();
+  const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     getArticleByID(article_id)
@@ -73,7 +75,7 @@ const SingleArticle = ({currentUser}) => {
       >
         Downvote
       </button>
-      <Comments article_id={article_id} currentUser={currentUser}/>
+      <Comments article_id={article_id}/>
     </div>
   );
 };
