@@ -4,10 +4,13 @@ const SamualdiNewsAPi = axios.create({
   baseURL: `http://samualdi-news-app.herokuapp.com/api`,
 });
 
-export const getArticles = (slug) => {
+export const getArticles = (slug, sortBy, order) => {
   return SamualdiNewsAPi.get("/articles", {
     params: {
-      topic: slug
+      topic: slug,
+      sort_by: sortBy,
+      order: order
+
     }}).then((res) => {
       return res.data.articles;
    })  
