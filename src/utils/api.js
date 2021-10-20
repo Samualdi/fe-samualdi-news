@@ -43,9 +43,10 @@ export const findUser = (user) => {
   })
 }
 
-export const postComment = (article_id, username, userComment) => {
+export const postComment = (article_id, currentUser, userComment) => {
+
   return SamualdiNewsAPi.post(`/articles/${article_id}/comments`, {
-      username: username,
+      username: currentUser.username,
       body: userComment
   }).then((res) => {
       return res.data.newComment
