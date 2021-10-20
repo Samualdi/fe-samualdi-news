@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const SamualdiNewsAPi = axios.create({
+const samualdiNewsAPi = axios.create({
   baseURL: `http://samualdi-news-app.herokuapp.com/api`,
 });
 
 export const getArticles = (slug, sortBy, order) => {
-  return SamualdiNewsAPi.get("/articles", {
+  return samualdiNewsAPi.get("/articles", {
     params: {
       topic: slug,
       sort_by: sortBy,
@@ -17,42 +17,48 @@ export const getArticles = (slug, sortBy, order) => {
 }
 
 export const getTopics = () => {
-  return SamualdiNewsAPi.get("/topics").then((res) => {
+  return samualdiNewsAPi.get("/topics").then((res) => {
     return res.data.topics;
   })
 }
 
 export const getArticleByID = (article_id) => {
-  return SamualdiNewsAPi.get(`/articles/${article_id}`).then((res) => {
+  return samualdiNewsAPi.get(`/articles/${article_id}`).then((res) => {
     return res.data.article;
   })
 }
 
 export const getArticleComments = (article_id) => {
-  return SamualdiNewsAPi.get(`/articles/${article_id}/comments`).then((res) => {
+  return samualdiNewsAPi.get(`/articles/${article_id}/comments`).then((res) => {
     return res.data.articleComments;
   })
 }
 
 export const incArticleVote = (article_id, vote) => {
-  return SamualdiNewsAPi.patch(`articles/${article_id}`, { inc_votes: vote }).then((res) => {
+  return samualdiNewsAPi.patch(`articles/${article_id}`, { inc_votes: vote }).then((res) => {
     return res.data.updatedArticle;
   })
 }
 
 export const findUser = (user) => {
-    return SamualdiNewsAPi.get(`users/${user}`).then((res) => {
+    return samualdiNewsAPi.get(`users/${user}`).then((res) => {
     return res.data.user
   })
 }
 
 export const postComment = (article_id, currentUser, userComment) => {
-
-  return SamualdiNewsAPi.post(`/articles/${article_id}/comments`, {
+  return samualdiNewsAPi.post(`/articles/${article_id}/comments`, {
       username: currentUser.username,
       body: userComment
   }).then((res) => {
       return res.data.newComment
     })
-
 }
+
+export const deleteComment = (commentToDelete) => {
+  return samualdiNewsAPi.delete(`/comments/${commentToDelete}`).then((res) => {
+    return res;
+  })
+}
+
+

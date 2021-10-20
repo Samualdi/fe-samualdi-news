@@ -1,16 +1,16 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../conetxts/User';
-import { getArticleComments, postComment } from '../utils/api';
+import { UserContext } from '../contexts/User';
+import { deleteComment, getArticleComments, postComment } from '../utils/api';
 
 const Comments = ({ article_id }) => {
-    const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]);
     const [newUserComment, setnewUserComment] = useState("");
     const [userComment, setUserComment] = useState("");
     const [err, setErr] = useState(null);
-    const [commentErr, setCommentErr] = useState(null);
-    const { currentUser } = useContext(UserContext);
-
+  const [commentErr, setCommentErr] = useState(null);
+  const [commentToDelete, setCommentToDelete] = useState();
+  const { currentUser } = useContext(UserContext);
 
     useEffect(() => {
         setErr(null);
@@ -24,17 +24,21 @@ const Comments = ({ article_id }) => {
 
     useEffect(() => {
         if (userComment) {
-            if (!currentUser) {
-                Promise.reject();
-            }
             setCommentErr(null);
             postComment(article_id, currentUser, userComment).catch((err) => {
                 setCommentErr('You must be logged in to post a comment');
             })
-            
         }
-        
     }, [userComment])
+
+  useEffect(() => {
+    if (commentToDelete) {
+      deleteComment(commentToDelete).then((res) => {
+        setCommentToDelete()
+      }).catch(() => {
+        console.log('failed to delete!')
+      })
+    }}, [commentToDelete])
     
     if (err) return <p>{err}</p>
     
@@ -46,16 +50,22 @@ const Comments = ({ article_id }) => {
            return (
              <li key={comment.comment_id}>
                <p>{comment.body}</p>
-               <p>{comment.author}</p>
-               <p>{comment.votes}</p>
-               <p>{comment.created_at}</p>
+               <p>By: {comment.author}</p>
+               <p>Votes: {comment.votes}</p>
+               <p>Date: {comment.created_at}</p>
+               {(currentUser && <button disabled={currentUser.username !== comment.author} onClick={() => {
+                 setCommentToDelete(comment.comment_id);
+               }}>Delete</button>)}
              </li>
            );
          })}
          {err && <p>Something went wrong with loading comments!</p>}
        </ul>
-           <h2>Add a comment</h2>
-           {(commentErr && <p>Failed to post - make sure you are logged in!</p>)}
+       {(!currentUser && <h2>Login to leave a comment!</h2>)}
+       {(currentUser && <section>
+       <h2>Add a comment</h2>
+       
+           {(commentErr && <p>Failed to post - please try again!</p>)}
        <form
          onSubmit={(e) => {
            e.preventDefault();
@@ -74,7 +84,8 @@ const Comments = ({ article_id }) => {
            }}
          ></textarea>
          <button type="submit">Post</button>
-           </form>
+         </form>
+           </section> )}
            
      </div>
    );
