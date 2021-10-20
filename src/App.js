@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Nav from './components/Nav';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import SingleArticle from './components/SingleArticle';
-import { UserContext } from './conetxts/User';
+import { UserContext } from './contexts/User';
 
 function App() {
    const [currentUser, setCurrentUser] = useState();

@@ -1,17 +1,19 @@
 import React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { UserContext } from '../conetxts/User';
+import { useContext } from 'react/cjs/react.development';
 import { getArticleByID, incArticleVote } from '../utils/api';
+import { UserContext } from '../contexts/User';
 import Comments from './Comments';
 
 const SingleArticle = () => {
   const [article, setArticle] = useState({});
   const [err, setErr] = useState(null);
     const [votes, setVotes] = useState(0);
-    const [newVote, setNewVote] = useState(0);
-    const { article_id } = useParams();
+  const [newVote, setNewVote] = useState(0);
   const { currentUser } = useContext(UserContext);
+  const { article_id } = useParams();
+ 
 
   useEffect(() => {
     getArticleByID(article_id)
@@ -27,7 +29,7 @@ const SingleArticle = () => {
     
     useEffect(() => {
         if (newVote) {
-            incArticleVote(article_id, newVote).then((updatedArticle) => {
+            incArticleVote(article_id, newVote).then(() => {
                   setNewVote(0);
             }).catch((err) => {
                 setVotes(currVotes => {
@@ -45,7 +47,7 @@ const SingleArticle = () => {
         }
         
     }, [newVote])
-
+  
 
   if (err) return <p>{err}</p>;
   return (
@@ -55,6 +57,7 @@ const SingleArticle = () => {
       <p>{article.body}</p>
       <p>Date: {article.created_at}</p>
       <h2>Votes:{votes}</h2>
+{(currentUser && <section>
       <button
         onClick={() => {
           setVotes((currVotes) => {
@@ -75,6 +78,8 @@ const SingleArticle = () => {
       >
         Downvote
       </button>
+      </section>
+      )}
       <Comments article_id={article_id}/>
     </div>
   );

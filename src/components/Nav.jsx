@@ -3,11 +3,11 @@ import { useState, useEffect, useContext } from 'react';
 import { getTopics } from '../utils/api';
 import { Link } from 'react-router-dom';
 import Login from './Login';
-import { UserContext } from '../conetxts/User';
+
 
 const Nav = () => {
   const [topics, setTopics] = useState([]);
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+
    
     useEffect(() => {
         getTopics().then((topics) => {

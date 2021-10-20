@@ -1,7 +1,7 @@
 import React from 'react';
 import { findUser } from '../utils/api';
 import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../conetxts/User';
+import { UserContext } from '../contexts/User';
 
 const Login = () => {
     const [newUser, setNewUser] = useState("");
@@ -42,7 +42,7 @@ const Login = () => {
               setNewUser(e.target.value);
             }}
           />
-          <button type="submit">Log in!</button> {(err && <p>{err}</p>)}
+          <button type="submit">Log in!</button> {(err && <span>{err}</span>)}
             </form>
             </div>
     );
