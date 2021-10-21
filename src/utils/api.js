@@ -61,4 +61,10 @@ export const deleteComment = (commentToDelete) => {
   })
 }
 
+export const incCommentVote = (comment_id, vote) => {
+  return samualdiNewsAPi.patch(`comments/${comment_id}`, { inc_votes: vote }).then((res) => {
+    return res
+  });
+}
+
 
