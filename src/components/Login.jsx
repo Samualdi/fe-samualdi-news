@@ -19,7 +19,6 @@ const Login = () => {
        }
      }, [user]);
     
-
     
     if(!currentUser) return (
       <div>
@@ -32,9 +31,10 @@ const Login = () => {
             
           }}
         >
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username"></label>
           <input
             type="text"
+            placeholder="Enter a username..."
             required
             value={newUser}
             onChange={(e) => {
@@ -49,8 +49,7 @@ const Login = () => {
 
     return (
       <div>
-        <img src={currentUser.avatar_url} alt={currentUser.username} />
-        <p>{currentUser.username}</p>
+        <p>Logged in as {currentUser.username}</p>
         <button
           onClick={() => {
             setCurrentUser("");

@@ -14,7 +14,6 @@ function App() {
       <UserContext.Provider value={{currentUser, setCurrentUser}}>
       <BrowserRouter>
         <Header />
-        <Nav/>
         <Switch>
           <Route exact path="/">
             <Articles />

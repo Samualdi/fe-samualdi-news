@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../contexts/User';
-import { deleteComment, getArticleComments, postComment } from '../utils/api';
+import { deleteComment, getArticleComments, incArticleVote, incCommentVote, postComment } from '../utils/api';
 
 const Comments = ({ article_id }) => {
   const [comments, setComments] = useState([]);
@@ -38,7 +38,9 @@ const Comments = ({ article_id }) => {
       }).catch(() => {
         console.log('failed to delete!')
       })
-    }}, [commentToDelete])
+    }
+  }, [commentToDelete])
+  
     
     if (err) return <p>{err}</p>
     
@@ -51,7 +53,6 @@ const Comments = ({ article_id }) => {
              <li key={comment.comment_id}>
                <p>{comment.body}</p>
                <p>By: {comment.author}</p>
-               <p>Votes: {comment.votes}</p>
                <p>Date: {comment.created_at}</p>
                {(currentUser && <button disabled={currentUser.username !== comment.author} onClick={() => {
                  setCommentToDelete(comment.comment_id);
@@ -61,7 +62,6 @@ const Comments = ({ article_id }) => {
          })}
          {err && <p>Something went wrong with loading comments!</p>}
        </ul>
-       {(!currentUser && <h2>Login to leave a comment!</h2>)}
        {(currentUser && <section>
        <h2>Add a comment</h2>
        

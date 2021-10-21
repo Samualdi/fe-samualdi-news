@@ -9,7 +9,6 @@ const Articles = () => {
     const { slug } = useParams();
     const [sortBy, setSortBy] = useState('created_at');
   const [order, setOrder] = useState('desc');
-  console.log(sortBy);
 
 
     useEffect(() => {
@@ -49,11 +48,11 @@ const Articles = () => {
             return (
               <li key={article.article_id}>
                 <Link to={`/articles/${article.article_id}`}>
-                  {article.title}
+                  <h3>{article.title}</h3>
+                  <p>By: {article.author}</p>
+                  <p>Likes: {article.votes}</p>
+                  <p>Date: {article.created_at.substring(0,10)}</p>
                 </Link>
-                <h4>Created by: {article.author}</h4>
-                <p>Votes: {article.votes}</p>
-                <p>Date: {article.created_at}</p>
               </li>
             );
           })}

@@ -17,7 +17,7 @@ const Nav = () => {
   
     return (
       <div className="Nav">
-        <Link to="/">Home</Link>
+        <Link to="/" className="topic-link">Home</Link>
         {topics.map((topic) => {
           return (
             <Link
@@ -29,7 +29,7 @@ const Nav = () => {
             </Link>
           );
         })}
-        <Login />
+        <Login className="login-form"/>
         
       </div>
     );
