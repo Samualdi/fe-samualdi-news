@@ -46,7 +46,7 @@ const Articles = () => {
         <ul>
           {articles.map((article) => {
             return (
-              <li key={article.article_id}>
+              <li key={article.article_id} className="articles-li">
                 <Link to={`/articles/${article.article_id}`}>
                   <h3>{article.title}</h3>
                   <p>By: {article.author}</p>

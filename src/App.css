@@ -1,5 +1,6 @@
 
 /*General*/
+
 body{
   color: rgb(16, 26, 26);
   font-size: 1em;
@@ -12,6 +13,9 @@ ul{
 }
  button{
    background-color: palegreen;
+   border:beige;
+   border-radius: 10%;
+   
  }
  button:hover{
    background-color:#2EC4B6;;
@@ -28,7 +32,6 @@ border:beige;
    width:20%;
    border: none;
    margin-top: 0px;
-   
  }
  
 img{
@@ -74,13 +77,13 @@ li{
   box-shadow: 7px 9px 15px 2px rgba(46,196,182,0.37);
 }
 
-li:hover{
+.articles-li:hover{
   box-shadow: 20px 15px 26px -3px #2EC4B6;
   }
+
  a{
    text-decoration: none;
    color:rgb(16, 26, 26);
-   
  }
 
 
@@ -96,8 +99,8 @@ li:hover{
   flex-direction: column;
   color: beige;
   background-color: #2EC4B6;
-  margin: 0px 0px 20px 0px;
   padding: 0px 0px 10px 0px;
+  border: 1px solid cadetblue;
 }
 
 .samualdi-news-header{
@@ -105,7 +108,9 @@ li:hover{
   color: beige;
 }
 
-
+#sort-by{
+  margin-top: 10px;
+}
 
 .Nav{
   background-color: #FFBF69;
@@ -115,7 +120,7 @@ li:hover{
 
 .login-form{
   display: flex;
-  justify-content: right;
+  justify-content: center;
   margin: 10px;
 
 }
@@ -126,6 +131,29 @@ li:hover{
   margin: 10px;
   text-decoration: underline;
 }
+
+.single-article{
+  background-color: #CBF3F0;
+  padding-top: 20px;
+}
+
+.date{
+  border-bottom: px cadetblue;
+}
+
+.single-article-info{
+  border: 1px solid cadetblue;
+  background-color: beige;
+  border-radius: 20% 0px;
+}
+
+.article-body{
+  background-color:cornsilk;
+  border-top: 1px solid cadetblue;
+  border-bottom: 1px solid cadetblue;
+  padding: 10px;
+}
+
 
 
 

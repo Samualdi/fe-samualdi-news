@@ -51,37 +51,42 @@ const SingleArticle = () => {
 
   if (err) return <p>{err}</p>;
   return (
-    <div>
-      <h2>{article.title}</h2>
-      <p>By: {article.author}</p>
-      <p>{article.body}</p>
-      <p>Date: {article.created_at}</p>
-      <h2>Votes:{votes}</h2>
-{(currentUser && <section>
-      <button
-        onClick={() => {
-          setVotes((currVotes) => {
-            setNewVote(1);
-            return currVotes + 1;
-          });
-        }}
-      >
-        upVote
-      </button>
-      <button
-        onClick={() => {
-          setVotes((currVotes) => {
-            setNewVote(-1);
-            return currVotes - 1;
-          });
-        }}
-      >
-        Downvote
-      </button>
+    <section className="single-article">
+      <section className="single-article-info">
+        <h2>{article.title}</h2>
+        <p>By: {article.author}</p>
+        <p className="date">Date: {article.created_at}</p>
       </section>
+      <p className="article-body">{article.body}</p>
+      <h2>Likes:{votes}</h2>
+      {currentUser && (
+        <section className="vote-buttons">
+          <button
+            onClick={() => {
+              setVotes((currVotes) => {
+                setNewVote(1);
+                return currVotes + 1;
+              });
+            }}
+          >
+            upVote
+          </button>
+          <button
+            onClick={() => {
+              setVotes((currVotes) => {
+                setNewVote(-1);
+                return currVotes - 1;
+              });
+            }}
+          >
+            Downvote
+          </button>
+        </section>
       )}
-      <Comments article_id={article_id}/>
-    </div>
+      {!currentUser}
+      <p>Log in to like or leave a comment on this article</p>
+      <Comments article_id={article_id} />
+    </section>
   );
 };
 
