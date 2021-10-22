@@ -13,21 +13,25 @@ const Nav = () => {
 
    
   useEffect(() => {
-      setLoading(true)
-        getTopics().then((topics) => {
-          setTopics(topics);
-          setLoading(false);
-        }).catch(() => {
-          setErr('Failed to load topics');
-          setLoading(false);
-        });
-    }, [])
+    setLoading(true);
+    getTopics()
+      .then((topics) => {
+        setTopics(topics);
+        setLoading(false);
+      })
+      .catch(() => {
+        setErr("Failed to load topics");
+        setLoading(false);
+      });
+  }, []);
   
     return (
       <div className="Nav">
-        {(loading && <p>Loading...</p>)}
-        {(err && <p>{err}</p>)}
-        <Link to="/" className="topic-link">Home</Link>
+        {loading && <p>Loading...</p>}
+        {err && <p>{err}</p>}
+        <Link to="/" className="topic-link">
+          Home
+        </Link>
         {topics.map((topic) => {
           return (
             <Link
@@ -39,8 +43,7 @@ const Nav = () => {
             </Link>
           );
         })}
-        <Login className="login-form"/>
-        
+        <Login className="login-form" />
       </div>
     );
 };

@@ -6,61 +6,62 @@ import { UserContext } from '../contexts/User';
 const Login = () => {
     const [newUser, setNewUser] = useState("");
     const [user, setUser] = useState("");
-  const [err, setErr] = useState(null)
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
+    const [err, setErr] = useState(null);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
      useEffect(() => {
        if (user) {
-         setLoading(true)
-         findUser(user).then((userData) => {
-           setCurrentUser(userData);
-           setLoading(false);
-         }).catch((err) => {
-           if (err.response.data.msg) {
-             setErr(err.response.data.msg);
-           } else {
-             setErr('Login failed. Please try again.')
-           }
-           setLoading(false)
-         })
+         setLoading(true);
+         findUser(user)
+           .then((userData) => {
+             setCurrentUser(userData);
+             setLoading(false);
+           })
+           .catch((err) => {
+            //  if (err.response.data.msg) {
+            //    setErr(err.response.data.msg);
+            //  } 
+            setErr("Login failed. Please try again.");
+             setLoading(false);
+           });
        }
      }, [user]);
-  
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem("loggedInUser", JSON.stringify(currentUser))
-    }
-  }, [currentUser])
+
+     useEffect(() => {
+       if (currentUser) {
+         localStorage.setItem("loggedInUser", JSON.stringify(currentUser));
+       }
+     }, [currentUser]);
     
     
-    if(!currentUser) return (
-      <div>
-        {(loading && <p>Finding user...</p>)}
-        <form
-          className="login-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setUser(newUser);
-            setNewUser("");
-            
-          }}
-        >
-          <label htmlFor="username"></label>
-          <input
-            type="text"
-            placeholder="Enter a username..."
-            required
-            value={newUser}
-            onChange={(e) => {
-              setErr(null);
-              setNewUser(e.target.value);
+    if (!currentUser)
+      return (
+        <div>
+          {loading && <p>Finding user...</p>}
+          <form
+            className="login-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setUser(newUser);
+              setNewUser("");
             }}
-          />
-          <button type="submit">Log in!</button> {(err && <span>{err}</span>)}
-            </form>
-            </div>
-    );
+          >
+            <label htmlFor="username"></label>
+            <input
+              type="text"
+              placeholder="Enter a username..."
+              required
+              value={newUser}
+              onChange={(e) => {
+                setErr(null);
+                setNewUser(e.target.value);
+              }}
+            />
+            <button type="submit">Log in!</button> {err && <span>{err}</span>}
+          </form>
+        </div>
+      );
 
     return (
       <div>
@@ -69,7 +70,7 @@ const Login = () => {
           onClick={() => {
             setCurrentUser("");
             setUser("");
-            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem("loggedInUser");
           }}
         >
           Log out!

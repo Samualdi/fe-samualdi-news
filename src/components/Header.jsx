@@ -9,9 +9,8 @@ const Header = () => {
 
 
     return (
-      <div className="Header">
+      <section className="Header">
         <section className="header-icons">
-          {" "}
           <button
             className="menu-button"
             onClick={() => {
@@ -41,7 +40,7 @@ const Header = () => {
         </section>
         <h1 className="samualdi-news-header">Samualdi News</h1>
         {showMenu && <Nav />}
-      </div>
+      </section>
     );
 };
 

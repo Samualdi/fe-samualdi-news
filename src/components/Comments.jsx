@@ -7,9 +7,9 @@ import Toggle from 'react-toggle';
 
 const Comments = ({ article_id }) => {
   const [comments, setComments] = useState([]);
-    const [newUserComment, setnewUserComment] = useState("");
-    const [userComment, setUserComment] = useState("");
-    const [err, setErr] = useState(null);
+  const [newUserComment, setnewUserComment] = useState("");
+  const [userComment, setUserComment] = useState("");
+  const [err, setErr] = useState(null);
   const [commentErr, setCommentErr] = useState(null);
   const [commentToDelete, setCommentToDelete] = useState();
   const { currentUser } = useContext(UserContext);
@@ -20,56 +20,61 @@ const Comments = ({ article_id }) => {
 
     useEffect(() => {
       setErr(null);
-        getArticleComments(article_id).then((comments) => {
+      getArticleComments(article_id)
+        .then((comments) => {
           setComments(comments);
-        }).catch((err) => {
-            setErr('Something went wrong!')
         })
-        
-    }, [article_id, comments])
+        .catch((err) => {
+          setErr("Something went wrong!");
+        });
+    }, [article_id, comments]);
 
     useEffect(() => {
-        if (userComment) {
-          setCommentErr(null);
-          setCommentLoading(true)
-          postComment(article_id, currentUser, userComment).then(() => {
+      if (userComment) {
+        setCommentErr(null);
+        setCommentLoading(true);
+        postComment(article_id, currentUser, userComment)
+          .then(() => {
             setCommentLoading(false);
-            }).catch((err) => {
-              setCommentErr('Post failed, please try again.');
-              setCommentLoading(false);
-            })
-        }
-    }, [userComment])
+          })
+          .catch((err) => {
+            setCommentErr("Post failed, please try again.");
+            setCommentLoading(false);
+          });
+      }
+    }, [userComment]);
 
-  useEffect(() => {
-    if (commentToDelete) {
-      setCommentDeleting(true);
-      deleteComment(commentToDelete).then(() => {
-        setCommentToDelete()
-        setCommentDeleting(false);
-      }).catch(() => {
-        setdeleteErr('Failed to delete. Please try again');
-        setCommentDeleting(false);
-      })
-    }
-  }, [commentToDelete])
+    useEffect(() => {
+      if (commentToDelete) {
+        setCommentDeleting(true);
+        deleteComment(commentToDelete)
+          .then(() => {
+            setCommentToDelete();
+            setCommentDeleting(false);
+          })
+          .catch(() => {
+            setdeleteErr("Failed to delete. Please try again");
+            setCommentDeleting(false);
+          });
+      }
+    }, [commentToDelete]);
   
     
   if (err) return <p>{err}</p>
   
   return (
-    <div className="comments-section">
+    <section className="comments-section">
       <section>
-      <h2>Comments</h2>
-      <label>
-      <Toggle
-        defaultChecked={showComments === true}
-        className="comments-toggle"
-        onChange={() => {
-          setShowComments(!showComments);
-        }}
-      />
-      </label>
+        <h2>Comments</h2>
+        <label>
+          <Toggle
+            defaultChecked={showComments === true}
+            className="comments-toggle"
+            onChange={() => {
+              setShowComments(!showComments);
+            }}
+          />
+        </label>
       </section>
       {showComments && (
         <ul>
@@ -126,7 +131,7 @@ const Comments = ({ article_id }) => {
           </form>
         </section>
       )}
-    </div>
+    </section>
   );
 };
 

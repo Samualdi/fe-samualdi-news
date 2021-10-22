@@ -1,10 +1,10 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { useContext } from 'react/cjs/react.development';
-import { getArticleByID, incArticleVote } from '../utils/api';
-import { UserContext } from '../contexts/User';
-import Comments from './Comments';
+import React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { useContext } from "react/cjs/react.development";
+import { getArticleByID, incArticleVote } from "../utils/api";
+import { UserContext } from "../contexts/User";
+import Comments from "./Comments";
 
 const SingleArticle = () => {
   const [article, setArticle] = useState({});
@@ -13,7 +13,6 @@ const SingleArticle = () => {
   const { currentUser } = useContext(UserContext);
   const { article_id } = useParams();
   const [loading, setLoading] = useState(false);
- 
 
   useEffect(() => {
     setErr(null);
@@ -34,28 +33,23 @@ const SingleArticle = () => {
       });
   }, [article_id]);
 
- 
   const handleVote = (voteValue) => {
     setVotes((currVotes) => {
       return currVotes + voteValue;
-    })
+    });
     incArticleVote(article_id, voteValue).catch((err) => {
       if (voteValue === 1) {
         setVotes((currVotes) => {
-          return currVotes -1
-        })
+          return currVotes - 1;
+        });
       }
       if (voteValue === -1) {
         setVotes((currVotes) => {
           return currVotes + 1;
         });
       }
-    })
-      
-    }
-     
-        
-  
+    });
+  };
 
   if (err) return <p>{err}</p>;
   return (
@@ -74,7 +68,7 @@ const SingleArticle = () => {
           <button
             className="upVote"
             onClick={() => {
-              handleVote(1)
+              handleVote(1);
             }}
           >
             <img
@@ -85,7 +79,7 @@ const SingleArticle = () => {
           <button
             className="downVote"
             onClick={() => {
-              handleVote(-1)
+              handleVote(-1);
             }}
           >
             <img
