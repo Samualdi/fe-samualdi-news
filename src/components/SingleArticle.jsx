@@ -9,8 +9,7 @@ import Comments from './Comments';
 const SingleArticle = () => {
   const [article, setArticle] = useState({});
   const [err, setErr] = useState(null);
-    const [votes, setVotes] = useState(0);
-  const [newVote, setNewVote] = useState(0);
+  const [votes, setVotes] = useState(0);
   const { currentUser } = useContext(UserContext);
   const { article_id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -18,44 +17,44 @@ const SingleArticle = () => {
 
   useEffect(() => {
     setErr(null);
-    setLoading(true)
+    setLoading(true);
     getArticleByID(article_id)
       .then((article) => {
         setArticle(article);
-        setVotes(article.votes)
+        setVotes(article.votes);
         setLoading(false);
       })
       .catch((err) => {
         if (err.response.data.msg) {
           setErr(err.response.data.msg);
         } else {
-          setErr('Something went wrong. Please refresh to try again...')
+          setErr("Something went wrong. Please refresh to try again...");
         }
         setLoading(false);
-
       });
   }, [article_id]);
-    
-    useEffect(() => {
-        if (newVote) {
-            incArticleVote(article_id, newVote).then(() => {
-                  setNewVote(0);
-            }).catch((err) => {
-                setVotes(currVotes => {
-                    if (newVote > 0) {
-                        setNewVote(0)
-                        return currVotes - 1;
-                    } else {
-                        setNewVote(0);
-                         return currVotes + 1;
-                    }
-                
-                })
-                
-            })
-        }
+
+ 
+  const handleVote = (voteValue) => {
+    setVotes((currVotes) => {
+      return currVotes + voteValue;
+    })
+    incArticleVote(article_id, voteValue).catch((err) => {
+      if (voteValue === 1) {
+        setVotes((currVotes) => {
+          return currVotes -1
+        })
+      }
+      if (voteValue === -1) {
+        setVotes((currVotes) => {
+          return currVotes + 1;
+        });
+      }
+    })
+      
+    }
+     
         
-    }, [newVote])
   
 
   if (err) return <p>{err}</p>;
@@ -68,17 +67,14 @@ const SingleArticle = () => {
         <p className="date">Date: {article.created_at}</p>
       </section>
       <p className="article-body">{article.body}</p>
-      {(!currentUser && <p>Log in to like and comment!</p> )}
+      {!currentUser && <p>Log in to like and comment!</p>}
       <section className="vote-buttons"></section>
       {currentUser && (
         <section className="vote-buttons">
           <button
             className="upVote"
             onClick={() => {
-              setVotes((currVotes) => {
-                setNewVote(1);
-                return currVotes + 1;
-              });
+              handleVote(1)
             }}
           >
             <img
@@ -89,10 +85,7 @@ const SingleArticle = () => {
           <button
             className="downVote"
             onClick={() => {
-              setVotes((currVotes) => {
-                setNewVote(-1);
-                return currVotes - 1;
-              });
+              handleVote(-1)
             }}
           >
             <img
