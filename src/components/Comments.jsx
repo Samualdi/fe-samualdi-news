@@ -24,7 +24,7 @@ const Comments = ({ article_id }) => {
         .then((comments) => {
           setComments(comments);
         })
-        .catch((err) => {
+        .catch(() => {
           setErr("Something went wrong!");
         });
     }, [article_id, comments]);
@@ -37,7 +37,7 @@ const Comments = ({ article_id }) => {
           .then(() => {
             setCommentLoading(false);
           })
-          .catch((err) => {
+          .catch(() => {
             setCommentErr("Post failed, please try again.");
             setCommentLoading(false);
           });
@@ -58,6 +58,7 @@ const Comments = ({ article_id }) => {
           });
       }
     }, [commentToDelete]);
+
   
     
   if (err) return <p>{err}</p>
@@ -86,14 +87,14 @@ const Comments = ({ article_id }) => {
                 <p>Date: {comment.created_at}</p>
                 {commentDeleting && <p>Deleting...</p>}
                 {currentUser && (
-                  <button
-                    disabled={currentUser.username !== comment.author}
-                    onClick={() => {
-                      setCommentToDelete(comment.comment_id);
-                    }}
-                  >
-                    Delete
-                  </button>
+                    <button
+                      disabled={currentUser.username !== comment.author}
+                      onClick={() => {
+                        setCommentToDelete(comment.comment_id);
+                      }}
+                    >
+                      Delete
+                    </button>
                 )}
                 {deleteErr && <p>{deleteErr}</p>}
               </li>

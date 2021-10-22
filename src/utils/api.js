@@ -34,8 +34,8 @@ export const getArticleComments = (article_id) => {
   })
 }
 
-export const incArticleVote = (article_id, vote) => {
-  return samualdiNewsAPi.patch(`articles/${article_id}`, { inc_votes: vote }).then((res) => {
+export const incArticleVote = (article_id, voteValue) => {
+  return samualdiNewsAPi.patch(`articles/${article_id}`, { inc_votes: voteValue }).then((res) => {
     return res.data.updatedArticle;
   })
 }
@@ -61,10 +61,5 @@ export const deleteComment = (commentToDelete) => {
   })
 }
 
-export const incCommentVote = (comment_id, vote) => {
-  return samualdiNewsAPi.patch(`comments/${comment_id}`, { inc_votes: vote }).then((res) => {
-    return res
-  });
-}
 
 
