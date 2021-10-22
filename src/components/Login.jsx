@@ -8,13 +8,21 @@ const Login = () => {
     const [user, setUser] = useState("");
   const [err, setErr] = useState(null)
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
 
      useEffect(() => {
        if (user) {
+         setLoading(true)
          findUser(user).then((userData) => {
            setCurrentUser(userData);
+           setLoading(false);
          }).catch((err) => {
+           if (err.response.data.msg) {
              setErr(err.response.data.msg);
+           } else {
+             setErr('Login failed. Please try again.')
+           }
+           setLoading(false)
          })
        }
      }, [user]);
@@ -28,6 +36,7 @@ const Login = () => {
     
     if(!currentUser) return (
       <div>
+        {(loading && <p>Finding user...</p>)}
         <form
           className="login-form"
           onSubmit={(e) => {

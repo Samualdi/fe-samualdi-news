@@ -13,17 +13,26 @@ const SingleArticle = () => {
   const [newVote, setNewVote] = useState(0);
   const { currentUser } = useContext(UserContext);
   const { article_id } = useParams();
+  const [loading, setLoading] = useState(false);
  
 
   useEffect(() => {
+    setErr(null);
+    setLoading(true)
     getArticleByID(article_id)
       .then((article) => {
-        setErr(null);
         setArticle(article);
-        setVotes(article.votes);
+        setVotes(article.votes)
+        setLoading(false);
       })
       .catch((err) => {
-        setErr(err.response.data.msg);
+        if (err.response.data.msg) {
+          setErr(err.response.data.msg);
+        } else {
+          setErr('Something went wrong. Please refresh to try again...')
+        }
+        setLoading(false);
+
       });
   }, [article_id]);
     
@@ -53,15 +62,18 @@ const SingleArticle = () => {
   return (
     <section className="single-article">
       <section className="single-article-info">
+        {loading && <p>Loading...</p>}
         <h2>{article.title}</h2>
         <p>By: {article.author}</p>
         <p className="date">Date: {article.created_at}</p>
       </section>
       <p className="article-body">{article.body}</p>
-      <h2>Likes:{votes}</h2>
+      {(!currentUser && <p>Log in to like and comment!</p> )}
+      <section className="vote-buttons"></section>
       {currentUser && (
         <section className="vote-buttons">
           <button
+            className="upVote"
             onClick={() => {
               setVotes((currVotes) => {
                 setNewVote(1);
@@ -69,9 +81,13 @@ const SingleArticle = () => {
               });
             }}
           >
-            upVote
+            <img
+              src="https://cdn1.iconfinder.com/data/icons/cute-emoji-smiles-with-gradient/83/In_Love_Emoji_Emoticon_Feeling_Face_Smile-512.png"
+              alt="thumbs up icon"
+            ></img>
           </button>
           <button
+            className="downVote"
             onClick={() => {
               setVotes((currVotes) => {
                 setNewVote(-1);
@@ -79,12 +95,14 @@ const SingleArticle = () => {
               });
             }}
           >
-            Downvote
+            <img
+              src="https://cdn3.iconfinder.com/data/icons/e-face/128/_Angry_Face-256.png"
+              alt="sad face icon"
+            ></img>
           </button>
         </section>
       )}
-      {!currentUser}
-      <p>Log in to like or leave a comment on this article</p>
+      <h2>Likes:{votes}</h2>
       <Comments article_id={article_id} />
     </section>
   );

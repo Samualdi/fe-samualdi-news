@@ -14,32 +14,42 @@ const Comments = ({ article_id }) => {
   const [commentToDelete, setCommentToDelete] = useState();
   const { currentUser } = useContext(UserContext);
   const [showComments, setShowComments] = useState(false);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentDeleting, setCommentDeleting] = useState(false);
+  const [deleteErr, setdeleteErr] = useState();
 
     useEffect(() => {
-        setErr(null);
+      setErr(null);
         getArticleComments(article_id).then((comments) => {
-            setComments(comments);
+          setComments(comments);
         }).catch((err) => {
-            setErr(err.response.data.msg)
+            setErr('Something went wrong!')
         })
         
     }, [article_id, comments])
 
     useEffect(() => {
         if (userComment) {
-            setCommentErr(null);
-            postComment(article_id, currentUser, userComment).catch((err) => {
-                setCommentErr('You must be logged in to post a comment');
+          setCommentErr(null);
+          setCommentLoading(true)
+          postComment(article_id, currentUser, userComment).then(() => {
+            setCommentLoading(false);
+            }).catch((err) => {
+              setCommentErr('Post failed, please try again.');
+              setCommentLoading(false);
             })
         }
     }, [userComment])
 
   useEffect(() => {
     if (commentToDelete) {
-      deleteComment(commentToDelete).then((res) => {
+      setCommentDeleting(true);
+      deleteComment(commentToDelete).then(() => {
         setCommentToDelete()
+        setCommentDeleting(false);
       }).catch(() => {
-        console.log('failed to delete!')
+        setdeleteErr('Failed to delete. Please try again');
+        setCommentDeleting(false);
       })
     }
   }, [commentToDelete])
@@ -47,67 +57,77 @@ const Comments = ({ article_id }) => {
     
   if (err) return <p>{err}</p>
   
-    
-   return (
-     <div className="comments-section">
-       <h2>Comments</h2>
-       <label>
-         <Toggle
-           defaultChecked={showComments === true}
-           className="comments-toggle"
-           onChange={() => { setShowComments(!showComments) }}
-         />
-       </label>
-       {(showComments && <ul>
-         {comments.map((comment) => {
-           return (
-             <li key={comment.comment_id}>
-               <p>{comment.body}</p>
-               <p>By: {comment.author}</p>
-               <p>Date: {comment.created_at}</p>
-               {currentUser && (
-                 <button
-                   disabled={currentUser.username !== comment.author}
-                   onClick={() => {
-                     setCommentToDelete(comment.comment_id);
-                   }}
-                 >
-                   Delete
-                 </button>
-               )}
-             </li>
-           );
-         })}
-         {err && <p>Something went wrong with loading comments!</p>}
-       </ul>)}
-       {currentUser && (
-         <section>
-           <h2>Add a comment</h2>
+  return (
+    <div className="comments-section">
+      <section>
+      <h2>Comments</h2>
+      <label>
+      <Toggle
+        defaultChecked={showComments === true}
+        className="comments-toggle"
+        onChange={() => {
+          setShowComments(!showComments);
+        }}
+      />
+      </label>
+      </section>
+      {showComments && (
+        <ul>
+          {comments.map((comment) => {
+            return (
+              <li key={comment.comment_id}>
+                <p>{comment.body}</p>
+                <p>By: {comment.author}</p>
+                <p>Date: {comment.created_at}</p>
+                {commentDeleting && <p>Deleting...</p>}
+                {currentUser && (
+                  <button
+                    disabled={currentUser.username !== comment.author}
+                    onClick={() => {
+                      setCommentToDelete(comment.comment_id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
+                {deleteErr && <p>{deleteErr}</p>}
+              </li>
+            );
+          })}
+          {err && <p>Something went wrong with loading comments!</p>}
+        </ul>
+      )}
+      {currentUser && (
+        <section>
+          <h2>Add a comment</h2>
 
-           {commentErr && <p>Failed to post - please try again!</p>}
-           <form
-             onSubmit={(e) => {
-               e.preventDefault();
-               setUserComment(newUserComment);
-               setnewUserComment("");
-             }}
-           >
-             <textarea
-               name="comment-box"
-               id="commentbox"
-               cols="30"
-               rows="10"
-               value={newUserComment}
-               onChange={(e) => {
-                 setnewUserComment(e.target.value);
-               }}
-             ></textarea>
-             <button type="submit">Post</button>
-           </form>
-         </section>
-       )}
-     </div>
-   );
+          {commentErr && <p>Failed to post - please try again!</p>}
+          {commentLoading && <p>Loading...</p>}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setUserComment(newUserComment);
+              setnewUserComment("");
+            }}
+          >
+            <textarea
+              name="comment-box"
+              id="commentbox"
+              placeholder="Tell us what you think..."
+              cols="30"
+              rows="10"
+              value={newUserComment}
+              onChange={(e) => {
+                setnewUserComment(e.target.value);
+              }}
+            ></textarea>
+            <br />
+            <button type="submit">Post</button>
+          </form>
+        </section>
+      )}
+    </div>
+  );
 };
 
 export default Comments;

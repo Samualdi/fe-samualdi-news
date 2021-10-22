@@ -9,12 +9,19 @@ const Articles = () => {
     const { slug } = useParams();
     const [sortBy, setSortBy] = useState('created_at');
   const [order, setOrder] = useState('desc');
+  const [loading, setLoading] = useState(false)
+  const [err, setErr] = useState(null);
 
-
-    useEffect(() => {
-        getArticles(slug, sortBy, order).then((articles) => {
-            setArticles(articles);
-        });
+  useEffect(() => {
+    setLoading(true);
+    setErr(null);
+    getArticles(slug, sortBy, order).then((articles) => {
+      setArticles(articles);
+      setLoading(false);
+    }).catch(() => {
+      setErr('Failed to load. Please refresh to try again.')
+      setLoading(false);
+        })
         
     }, [slug, sortBy, order]);
     return (
@@ -44,6 +51,8 @@ const Articles = () => {
           </select>
         </form>
         <ul>
+          {(loading && <p>Loading...</p>)}
+          {(err && <p>{err}</p>)}
           {articles.map((article) => {
             return (
               <li key={article.article_id} className="articles-li">

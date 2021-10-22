@@ -7,16 +7,26 @@ import Login from './Login';
 
 const Nav = () => {
   const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
+  
 
    
-    useEffect(() => {
+  useEffect(() => {
+      setLoading(true)
         getTopics().then((topics) => {
-            setTopics(topics);
+          setTopics(topics);
+          setLoading(false);
+        }).catch(() => {
+          setErr('Failed to load topics');
+          setLoading(false);
         });
     }, [])
   
     return (
       <div className="Nav">
+        {(loading && <p>Loading...</p>)}
+        {(err && <p>{err}</p>)}
         <Link to="/" className="topic-link">Home</Link>
         {topics.map((topic) => {
           return (
