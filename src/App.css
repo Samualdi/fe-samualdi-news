@@ -11,10 +11,17 @@ ul{
   margin-top: 0px;
   padding-top: 20px;
 }
+input{
+  border-radius: 20px;
+  border: 1px solid cadetblue;
+}
  button{
    background-color: palegreen;
    border:beige;
    border-radius: 10%;
+   padding: 5px;
+   border: 1px solid cadetblue;
+   margin-bottom: 0px;
    
  }
  button:hover{
@@ -25,6 +32,31 @@ ul{
 background-color:beige;
 color:beige;
 border:beige;
+ }
+
+ .upVote{
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   border: 1px solid cadetblue;
+   margin:10px;
+   box-shadow: 7px 9px 15px 2px grey;
+
+ }
+ .downVote{
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   border: 1px solid cadetblue;
+   box-shadow: 7px 9px 15px 2px grey;
+ }
+
+ .upVote:hover{
+   box-shadow: 20px 15px 26px -3px grey;
+ }
+
+ .downVote:hover{
+   box-shadow: 20px 15px 26px -3px grey;
  }
 
  .menu-button{
@@ -116,6 +148,8 @@ li{
   background-color: #FFBF69;
   color: rgb(16, 26, 26);
   padding: 10px 10px 0px 10px;
+
+  
 }
 
 .login-form{
@@ -145,6 +179,7 @@ li{
   border: 1px solid cadetblue;
   background-color: beige;
   border-radius: 20% 0px;
+  padding: 5px;
 }
 
 .article-body{
@@ -152,7 +187,10 @@ li{
   border-top: 1px solid cadetblue;
   border-bottom: 1px solid cadetblue;
   padding: 10px;
+  
 }
+
+
 
 
 
