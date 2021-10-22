@@ -19,14 +19,14 @@ const Login = () => {
              setLoading(false);
            })
            .catch((err) => {
-            //  if (err.response.data.msg) {
-            //    setErr(err.response.data.msg);
-            //  } 
+             if (err.response.data.msg) {
+               setErr(err.response.data.msg);
+             } 
             setErr("Login failed. Please try again.");
              setLoading(false);
            });
        }
-     }, [user]);
+     }, [user, setCurrentUser]);
 
      useEffect(() => {
        if (currentUser) {

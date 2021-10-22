@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect} from 'react';
 import { getTopics } from '../utils/api';
 import { Link } from 'react-router-dom';
 import Login from './Login';

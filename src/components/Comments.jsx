@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../contexts/User';
-import { deleteComment, getArticleComments, incArticleVote, incCommentVote, postComment } from '../utils/api';
+import { deleteComment, getArticleComments, postComment } from '../utils/api';
 import "react-toggle/style.css";
 import Toggle from 'react-toggle';
 
@@ -42,7 +42,7 @@ const Comments = ({ article_id }) => {
             setCommentLoading(false);
           });
       }
-    }, [userComment]);
+    }, [userComment, article_id, currentUser]);
 
     useEffect(() => {
       if (commentToDelete) {
