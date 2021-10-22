@@ -59,6 +59,19 @@ border:beige;
    box-shadow: 20px 15px 26px -3px grey;
  }
 
+ .upVote:disabled{
+   opacity: 0.5;
+   box-shadow: none;
+   background-color: #2EC4B6;
+ }
+
+ .downVote:disabled{
+   opacity: 0.5;
+   box-shadow: none;
+   background-color: #2EC4B6;
+   
+ }
+
  .menu-button{
    background-color: #2EC4B6;
    width:20%;

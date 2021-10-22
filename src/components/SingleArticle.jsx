@@ -13,6 +13,7 @@ const SingleArticle = () => {
   const { currentUser } = useContext(UserContext);
   const { article_id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [disableVotes, setDisableVotes] = useState(false);
 
   useEffect(() => {
     setErr(null);
@@ -67,8 +68,10 @@ const SingleArticle = () => {
         <section className="vote-buttons">
           <button
             className="upVote"
+            disabled={disableVotes}
             onClick={() => {
               handleVote(1);
+              setDisableVotes(true);
             }}
           >
             <img
@@ -78,8 +81,10 @@ const SingleArticle = () => {
           </button>
           <button
             className="downVote"
+            disabled={disableVotes}
             onClick={() => {
               handleVote(-1);
+              setDisableVotes(true);
             }}
           >
             <img
