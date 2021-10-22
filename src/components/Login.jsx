@@ -18,6 +18,12 @@ const Login = () => {
          })
        }
      }, [user]);
+  
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem("loggedInUser", JSON.stringify(currentUser))
+    }
+  }, [currentUser])
     
     
     if(!currentUser) return (
@@ -54,6 +60,7 @@ const Login = () => {
           onClick={() => {
             setCurrentUser("");
             setUser("");
+            localStorage.removeItem('loggedInUser');
           }}
         >
           Log out!

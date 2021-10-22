@@ -1,14 +1,22 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Articles from './components/Articles';
 import Header from './components/Header';
-import Nav from './components/Nav';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import SingleArticle from './components/SingleArticle';
 import { UserContext } from './contexts/User';
 
 function App() {
-   const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    const prevLoggedInUser = localStorage.getItem('loggedInUser');
+    if (prevLoggedInUser) {
+      setCurrentUser(JSON.parse(prevLoggedInUser));
+    }
+  }, [])
+  
+  
   return (
     <div className="App">
       <UserContext.Provider value={{currentUser, setCurrentUser}}>
